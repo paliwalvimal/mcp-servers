@@ -25,12 +25,11 @@ async def make_api_request(api_path: str, req_data: dict[str, Any]) -> dict[str,
             logger.info(f"Making request to: {url}")
             logger.info(f"Request data: {req_data}")
 
-            response = await client.post(url, headers=headers, json=req_data)
+            response = await client.post(url, headers=headers, data=req_data)
             logger.info(f"Response status: {response.status_code}")
             logger.info(f"Response body: {response.json()}")
 
-            response.raise_for_status()
             return response.json()
         except Exception as e:
-            logger.error(f"API request failed: {str(e)}")
+            logger.error(f"API request failed: {e}")
             return None
