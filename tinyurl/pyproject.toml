@@ -8,6 +8,7 @@ authors = [
 ]
 dependencies = [
     "httpx>=0.28.1",
+    "loguru>=0.7.3",
     "mcp[cli]>=1.13.1",
     "pydantic>=2.11.7",
 ]

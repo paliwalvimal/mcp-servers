@@ -1,3 +1,5 @@
+from loguru import logger
+
 from server import mcp
 from models import ShortUrlRequest, ShortUrlResponse
 from utils import make_api_request
@@ -14,7 +16,9 @@ async def generate_short_url(req_data: ShortUrlRequest) -> ShortUrlResponse:
     Returns:
         A short URL for the given long URL if success else error code along with the message.
     """
-    api_response = await make_api_request(api_path="create", req_data=req_data.model_dump())
+    api_response = await make_api_request(api_path="create", req_data=req_data.model_dump_json())
+
+    logger.info(f"API response: {api_response}")
 
     if api_response["code"] == 0:
         return ShortUrlResponse(
