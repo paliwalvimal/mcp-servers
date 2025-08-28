@@ -31,7 +31,7 @@ class ShortUrlRequest(BaseModel):
 
 
 class ShortUrlResponse(BaseModel):
-    tiny_url: str = Field(description="The shortened URL")
+    tiny_url: Optional[str] = Field(description="The shortened URL")
     expires_at: Optional[str] = Field(
         default=None,
         description="TinyURL expiration in ISO8601 format. Example: 2024-10-25 10:11:12",
