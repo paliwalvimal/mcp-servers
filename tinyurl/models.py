@@ -4,7 +4,23 @@ from typing import Optional
 from utils import date_parser_absolute
 
 
-class ShortUrlRequest(BaseModel):
+class BaseResponseModel(BaseModel):
+    """
+    Base response schema for all API responses
+    """
+
+    code: Optional[PositiveInt] = Field(
+        default=None,
+        description="Operation result code. 0 means success, anything else means failure",
+    )
+    errors: Optional[list[str]] = Field(default=None, description="List of errors that occurred")
+
+
+class CreateShortUrlRequest(BaseModel):
+    """
+    Request schema for creating a new short URL
+    """
+
     url: HttpUrl = Field(description="The long URL that will be shortened")
     domain: Optional[str] = Field(
         default="tinyurl.com", description="The domain you would like the TinyURL to use"
@@ -36,14 +52,37 @@ class ShortUrlRequest(BaseModel):
         return date_parser_absolute(expires_at)
 
 
-class ShortUrlResponse(BaseModel):
+class CreateShortUrlResponse(BaseResponseModel):
+    """
+    Response schema for creating a new short URL
+    """
+
     tiny_url: Optional[str] = Field(default=None, description="The shortened URL")
     expires_at: Optional[str] = Field(
         default=None,
         description="TinyURL expiration in ISO8601 format. Example: 2024-10-25 10:11:12",
     )
-    code: Optional[PositiveInt] = Field(
-        default=None,
-        description="Operation result code. 0 means success, anything else means failure",
+
+
+class UpdateLongUrlRequest(BaseModel):
+    """
+    Request schema to update a long URL for an exisitng short URL
+    """
+
+    url: HttpUrl = Field(description="The long URL that will be shortened")
+    domain: Optional[str] = Field(
+        default="tinyurl.com", description="The custom domain used for the short URL"
     )
-    errors: Optional[list[str]] = Field(default=None, description="List of errors that occurred")
+    alias: str = Field(
+        description="The existing alias for the short URL",
+        min_length=1,
+        max_length=30,
+    )
+
+
+class UpdateLongUrlResponse(BaseResponseModel):
+    """
+    Response schema to update a long URL for an exisitng short URL
+    """
+
+    url: Optional[str] = Field(default=None, description="The long URL")
