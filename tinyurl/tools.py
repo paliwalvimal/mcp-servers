@@ -106,6 +106,6 @@ async def list_short_urls(
     )
 
     if api_response["code"] == 0:
-        return ListShortUrlsResponse(**api_response["data"])
+        return ListShortUrlsResponse(urls=api_response["data"])
     else:
         return ApiErrorResponse(**api_response)

@@ -6,14 +6,13 @@ from utils import date_parser_absolute
 
 class ApiErrorResponse(BaseModel):
     """
-    Response schema for failed API responses
+    Response schema for failed API responses.
     """
 
-    code: Optional[PositiveInt] = Field(
-        default=None,
+    code: PositiveInt = Field(
         description="Operation result code. 0 means success, anything else means failure",
     )
-    errors: Optional[list[str]] = Field(default=None, description="List of errors that occurred")
+    errors: list[str] = Field(description="List of errors that occurred")
 
     # ignore additional arguments
     model_config = ConfigDict(extra="ignore")
@@ -21,7 +20,7 @@ class ApiErrorResponse(BaseModel):
 
 class CreateShortUrlRequest(BaseModel):
     """
-    Request schema for creating a new short URL
+    Request schema for creating a new short URL.
     """
 
     url: HttpUrl = Field(description="The long URL that will be shortened")
@@ -57,19 +56,18 @@ class CreateShortUrlRequest(BaseModel):
 
 class CreateShortUrlResponse(BaseModel):
     """
-    Response schema for creating a new short URL
+    Response schema for creating a new short URL.
     """
 
-    tiny_url: Optional[str] = Field(default=None, description="The shortened URL")
-    expires_at: Optional[str] = Field(
-        default=None,
+    tiny_url: str = Field(description="The shortened URL")
+    expires_at: str = Field(
         description="TinyURL expiration in ISO8601 format. Example: 2024-10-25 10:11:12",
     )
 
 
 class UpdateLongUrlRequest(BaseModel):
     """
-    Request schema to update a long URL for an exisiting short URL
+    Request schema to update a long URL for an exisiting short URL.
     """
 
     url: HttpUrl = Field(description="The long URL that will be shortened")
@@ -85,10 +83,10 @@ class UpdateLongUrlRequest(BaseModel):
 
 class UpdateLongUrlResponse(BaseModel):
     """
-    Response schema to update a long URL for an exisiting short URL
+    Response schema to update a long URL for an exisiting short URL.
     """
 
-    url: Optional[str] = Field(default=None, description="The long URL")
+    url: str = Field(description="The long URL")
 
 
 class DeleteLongUrlRequest(BaseModel):
@@ -108,18 +106,18 @@ class DeleteLongUrlRequest(BaseModel):
 
 class DeleteLongUrlResponse(BaseModel):
     """
-    Response schema to delete an exisiting short URL
+    Response schema to delete an exisiting short URL.
     """
 
-    tiny_url: Optional[str] = Field(default=None, description="The short URL")
-    url: Optional[str] = Field(default=None, description="The long URL")
-    deleted: Optional[bool] = Field(default=None, description="Whether the short URL was deleted")
-    archived: Optional[bool] = Field(default=None, description="Whether the short URL was archived")
+    tiny_url: str = Field(description="The short URL")
+    url: str = Field(description="The long URL")
+    deleted: bool = Field(description="Whether the short URL was deleted")
+    archived: bool = Field(description="Whether the short URL was archived")
 
 
 class ListShortUrlsRequest(BaseModel):
     """
-    Request schema to list all the existing available or archived short URLs
+    Request schema to list all the existing available or archived short URLs.
     """
 
     type: Optional[Literal["available", "archived"]] = Field(
@@ -149,31 +147,26 @@ class ListShortUrlsRequest(BaseModel):
 
 class ListShortUrlResponse(BaseModel):
     """
-    Response schema to list the existing available or archived short URL
+    Response schema to list the existing available or archived short URL.
     """
 
-    tiny_url: Optional[str] = Field(default=None, description="The short URL")
-    url: Optional[str] = Field(default=None, description="The long URL")
-    deleted: Optional[bool] = Field(default=None, description="Whether the short URL was deleted")
-    archived: Optional[bool] = Field(default=None, description="Whether the short URL was archived")
-    created_at: Optional[str] = Field(
-        default=None,
+    tiny_url: str = Field(description="The short URL")
+    url: str = Field(description="The long URL")
+    deleted: bool = Field(description="Whether the short URL was deleted")
+    archived: bool = Field(description="Whether the short URL was archived")
+    created_at: str = Field(
         description="Short URL creation in ISO8601 format. Example: 2024-10-25 10:11:12",
     )
     expires_at: Optional[str] = Field(
         default=None,
         description="Short URL expiration in ISO8601 format. Example: 2024-10-25 10:11:12",
     )
-    tags: Optional[list[str]] = Field(
-        default=None, description="List of tags applied to the short URL"
-    )
+    tags: list[str] = Field(description="List of tags applied to the short URL")
 
 
 class ListShortUrlsResponse(BaseModel):
     """
-    Response schema to list all the existing available or archived short URL
+    Response schema to list all the existing available or archived short URL.
     """
 
-    urls: Optional[list[ListShortUrlResponse]] = Field(
-        default=None, description="List of short URLs"
-    )
+    urls: list[ListShortUrlResponse] = Field(description="List of short URLs")
