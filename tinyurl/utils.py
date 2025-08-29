@@ -3,17 +3,36 @@ import httpx
 import dateparser
 
 from datetime import datetime
+from enum import Enum
 from loguru import logger
-from typing import Any
+from typing import Any, Optional
 
 
-async def make_api_request(api_path: str, req_data: dict[str, Any]) -> dict[str, Any] | None:
+class RequestMethod(str, Enum):
+    """Enum for HTTP request methods."""
+
+    GET = "GET"
+    POST = "POST"
+    DELETE = "DELETE"
+    PATCH = "PATCH"
+
+
+async def make_api_request(
+    api_path: str,
+    req_method: RequestMethod,
+    req_data: Optional[dict[str, Any]] = None,
+    query_params: Optional[dict[str, Any]] = None,
+) -> dict[str, Any] | None:
     """Make a request to the TinyURL API with proper error handling."""
+
+    # check for the API key
     api_key = os.environ.get("TINY_URL_API_KEY", None)
     if not api_key:
         err_msg = "TinyURL API key not found in environment variables."
         logger.error(err_msg)
         raise KeyError(err_msg)
+
+    url = f"https://api.tinyurl.com/{api_path}"
 
     headers = {
         "User-Agent": "VimalPaliwal TinyURL MCP",
@@ -22,13 +41,17 @@ async def make_api_request(api_path: str, req_data: dict[str, Any]) -> dict[str,
         "Authorization": f"Bearer {api_key}",
     }
 
+    # make async request to the api server
     async with httpx.AsyncClient() as client:
         try:
-            url = f"https://api.tinyurl.com/{api_path}"
             logger.info(f"Making request to: {url}")
             logger.info(f"Request data: {req_data}")
 
-            response = await client.post(url, headers=headers, data=req_data)
+            request = httpx.Request(
+                req_method.value, url, headers=headers, data=req_data, params=query_params
+            )
+            response = await client.send(request)
+
             logger.info(f"Response status: {response.status_code}")
             logger.info(f"Response body: {response.json()}")
 
@@ -38,7 +61,7 @@ async def make_api_request(api_path: str, req_data: dict[str, Any]) -> dict[str,
             raise
 
 
-def date_parser_absolute(valid_until: str) -> str | None:
+def date_parser_absolute(valid_until: str) -> str:
     """
     Validate and parse a given date string. The date string can be either relative or absolute.
 
