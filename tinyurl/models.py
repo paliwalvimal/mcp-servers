@@ -1,5 +1,7 @@
-from pydantic import BaseModel, Field, HttpUrl, PositiveInt
+from pydantic import BaseModel, Field, HttpUrl, PositiveInt, field_serializer
 from typing import Optional
+
+from utils import date_parser_absolute
 
 
 class ShortUrlRequest(BaseModel):
@@ -28,6 +30,10 @@ class ShortUrlRequest(BaseModel):
         min_length=3,
         max_length=1000,
     )
+
+    @field_serializer("expires_at")
+    def serialize_expires_at(self, expires_at: str):
+        return date_parser_absolute(expires_at)
 
 
 class ShortUrlResponse(BaseModel):

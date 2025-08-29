@@ -1,6 +1,8 @@
 import os
 import httpx
+import dateparser
 
+from datetime import datetime
 from loguru import logger
 from typing import Any
 
@@ -9,8 +11,9 @@ async def make_api_request(api_path: str, req_data: dict[str, Any]) -> dict[str,
     """Make a request to the TinyURL API with proper error handling."""
     api_key = os.environ.get("TINY_URL_API_KEY", None)
     if not api_key:
-        logger.error("TinyURL API key not found in environment variables.")
-        return None
+        err_msg = "TinyURL API key not found in environment variables."
+        logger.error(err_msg)
+        raise KeyError(err_msg)
 
     headers = {
         "User-Agent": "VimalPaliwal TinyURL MCP",
@@ -31,5 +34,33 @@ async def make_api_request(api_path: str, req_data: dict[str, Any]) -> dict[str,
 
             return response.json()
         except Exception as e:
-            logger.error(f"API request failed: {e}")
-            return None
+            logger.error(f"TinyURL API request failed: {e}")
+            raise
+
+
+def date_parser_absolute(valid_until: str) -> str | None:
+    """
+    Validate and parse a given date string. The date string can be either relative or absolute.
+
+    Args:
+        valid_until: The date string to validate and parse.
+
+    Returns:
+        The parsed date in ISO8601 format YYYY-MM-DD HH:MM:SS.
+    """
+    # Parse the date
+    parsed_date = dateparser.parse(valid_until)
+
+    # check if parsed_date is None
+    if parsed_date is None:
+        err_msg = f"Error: Failed to parse the date {valid_until}. Please provide a valid date."
+        logger.error(err_msg)
+        raise ValueError(err_msg)
+
+    # check if date is in the past
+    if parsed_date.date() < datetime.now().date():
+        err_msg = f"Error: {valid_until} is in the past. Please provide a future date."
+        logger.error(err_msg)
+        raise ValueError(err_msg)
+
+    return parsed_date.isoformat(sep=" ", timespec="seconds")
