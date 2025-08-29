@@ -15,5 +15,5 @@ def generate_short_url_prompt() -> str:
     **Instructions:**
     1. Always start with understanding the user's request and plan the steps before executing the tools.
     2. Validate all the required inputs are provided by the user. If not, prompt for the required inputs.
-    3.
+    3. In case of api error response from the tool, only suggest alternative approaches if any rather than executing them.
     """
