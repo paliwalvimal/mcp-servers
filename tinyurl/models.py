@@ -151,7 +151,6 @@ class ListShortUrlResponse(BaseModel):
     """
 
     tiny_url: str = Field(description="The short URL")
-    url: str = Field(description="The long URL")
     deleted: bool = Field(description="Whether the short URL was deleted")
     archived: bool = Field(description="Whether the short URL was archived")
     created_at: str = Field(
