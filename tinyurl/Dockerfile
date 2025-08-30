@@ -28,11 +28,10 @@ FROM python:alpine
 
 WORKDIR /app
 
-COPY --from=builder /root/.local /root/.local
 COPY --from=builder --chown=app:app /app/.venv /app/.venv
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
 
 # Run the MCP server by default
-CMD ["main.py"]
+CMD [ "python", "-m", "tinyurl-mcp-server.main" ]
