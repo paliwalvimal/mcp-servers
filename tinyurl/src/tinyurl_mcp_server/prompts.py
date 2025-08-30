@@ -1,4 +1,4 @@
-from server import mcp
+from tinyurl_mcp_server.server import mcp
 
 
 @mcp.prompt()

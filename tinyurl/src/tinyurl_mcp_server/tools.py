@@ -1,5 +1,5 @@
-from server import mcp
-from models import (
+from tinyurl_mcp_server.server import mcp
+from tinyurl_mcp_server.models import (
     ApiErrorResponse,
     CreateShortUrlRequest,
     CreateShortUrlResponse,
@@ -10,7 +10,7 @@ from models import (
     ListShortUrlsRequest,
     ListShortUrlsResponse,
 )
-from utils import make_api_request, RequestMethod
+from tinyurl_mcp_server.utils import make_api_request, RequestMethod
 
 
 @mcp.tool()

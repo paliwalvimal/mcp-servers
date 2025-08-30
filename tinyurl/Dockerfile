@@ -19,19 +19,26 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Then, add the rest of the project source code and install it
 # Installing separately from its dependencies allows optimal layer caching
 COPY . /app
+
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev --no-editable
 
 
-# Production stage - Use minimal Python image
-FROM python:alpine
+# # Production stage - Use minimal Python image
+# FROM python:alpine
 
-WORKDIR /app
+# WORKDIR /app
 
-COPY --from=builder --chown=app:app /app/.venv /app/.venv
+# # Create app user
+# RUN addgroup -g 1000 app && adduser -u 1000 -G app -s /bin/sh -D app
 
-# Place executables in the environment at the front of the path
-ENV PATH="/app/.venv/bin:$PATH"
+# COPY --from=builder --chown=app:app /app/.venv /app/.venv
 
-# Run the MCP server by default
-CMD [ "python", "-m", "tinyurl-mcp-server.main" ]
+# # Place executables in the environment at the front of the path
+# ENV PATH="/app/.venv/bin:$PATH"
+
+# # Change user
+# USER app
+
+# # Run the MCP server by default
+# ENTRYPOINT [ "tinyurl-mcp-server" ]
