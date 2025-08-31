@@ -6,23 +6,19 @@ This MCP server provides tools to interact with [tinyurl.com](https://tinyurl.co
 
 1. [uv](https://docs.astral.sh/uv/) from Astral
 2. [Python 3.13](https://www.python.org/downloads/) or higher
-3. Clone the repository
 
 ### Configuration
 
 Use either of the below option to configure your MCP client.
 
-**Via uv:**
+**Option 1: Via uvx**
 ```json
 {
   "mcpServers": {
     "tinyurl-mcp-server": {
-      "command": "uv",
+      "command": "uvx",
       "args": [
-        "--directory",
-        "mcp-servers/tinyurl/src/tinyurl_mcp_server",
-        "run",
-        "main.py"
+        "tinyurl-mcp-server"
       ],
       "env": {
         "TINY_URL_API_KEY": "__API_KEY__"
@@ -35,11 +31,12 @@ Use either of the below option to configure your MCP client.
 ```
 
 
-**Via docker:**
+**Option 2: Via docker**
 
-First step is to build the image:
+First step is to clone the repo and build the image:
 ```bash
-docker image build -t tinyurl .
+cd mcp-servers/tinyurl
+docker image build -t tinyurl-mcp-server .
 ```
 
 Then configure your MCP client:
@@ -52,7 +49,7 @@ Then configure your MCP client:
         "run",
         "-i",
         "--rm",
-        "tinyurl"
+        "tinyurl-mcp-server"
       ],
       "env": {
         "TINY_URL_API_KEY": "__API_KEY__"
