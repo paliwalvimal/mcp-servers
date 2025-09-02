@@ -1,5 +1,5 @@
 # Build stage - Use a Python image with uv pre-installed
-FROM astral/uv:0.8-python3.13-bookworm-slim AS builder
+FROM mirror.gcr.io/astral/uv:0.8-python3.13-bookworm-slim AS builder
 
 # Install the project into `/app`
 WORKDIR /app
