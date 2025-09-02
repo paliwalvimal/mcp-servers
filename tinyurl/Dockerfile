@@ -1,5 +1,5 @@
-# Build stage - Use a Python image with uv pre-installed
-FROM mirror.gcr.io/astral/uv:0.8-python3.13-trixie-slim AS builder
+# ====== Build stage ======
+FROM public.ecr.aws/docker/library/python:3.13-alpine AS uv
 
 # Install the project into `/app`
 WORKDIR /app
@@ -7,31 +7,57 @@ WORKDIR /app
 # Enable bytecode compilation
 ENV UV_COMPILE_BYTECODE=1
 
+# Prefer the system python
+ENV UV_PYTHON_PREFERENCE=only-system
+
+# Copy the required files first
+COPY pyproject.toml uv.lock .
+
+# Python optimization and uv configuration
+ENV PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# Install system dependencies and Python package manager
+RUN apk update && \
+    apk add --no-cache --virtual .build-deps \
+    build-base \
+    gcc \
+    musl-dev \
+    libffi-dev \
+    openssl-dev \
+    cargo
+
 # Install the project's dependencies using the lockfile and settings
-COPY uv.lock pyproject.toml .
-RUN uv sync --frozen --no-install-project --no-dev --no-editable
+RUN pip install --no-cache-dir uv && \
+    uv sync --frozen --no-install-project --no-dev --no-editable
 
 # Then, add the rest of the project source code and install it
 # Installing separately from its dependencies allows optimal layer caching
 COPY . .
 RUN uv build && uv pip install dist/*.whl
 
+# Make the directory just in case it doesn't exist
+RUN mkdir -p /root/.local
 
-# Production stage - Use minimal python image
-FROM mirror.gcr.io/python:3.13-slim-trixie
 
-WORKDIR /app
+# ====== Production build ======
+FROM public.ecr.aws/docker/library/python:3.13-alpine
 
-# Create app user
-RUN groupadd -g 1000 app && useradd -u 1000 -g app -s /bin/sh app
+# Place executables in the environment at the front of the path and include other binaries
+ENV PATH="/app/.venv/bin:$PATH" \
+    PYTHONUNBUFFERED=1
 
-COPY --from=builder --chown=app:app /app/.venv /app/.venv
+# Install runtime dependencies and create application user
+RUN apk update && \
+    apk add --no-cache ca-certificates && \
+    update-ca-certificates && \
+    addgroup -S app && \
+    adduser -S app -G app -h /app
 
-# Place executables in the environment at the front of the path
-ENV PATH="/app/.venv/bin:$PATH"
+# Copy application artifacts from build stage
+COPY --from=uv --chown=app:app /app/.venv /app/.venv
 
-# Change user
+# Run as non-root
 USER app
 
-# Run the MCP server by default
-ENTRYPOINT [ "tinyurl-mcp-server" ]
+ENTRYPOINT ["tinyurl-mcp-server"]
