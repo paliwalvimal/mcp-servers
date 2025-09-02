@@ -68,13 +68,10 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Print current directory and contents
-        run: |
-          pwd
-          ls -la
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          context: .
           platforms: linux/amd64,linux/arm64
           # push: true
           tags: vimalpaliwal/tinyurl-mcp-server:latest
