@@ -18,15 +18,25 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
         with:
-          dir_names: true
           files_ignore: README.md
+          json: true
 
-      - name: List changed files
-        if: steps.changed-files.outputs.any_changed == 'true'
+      - name: Get changed dirs
+        id: changed-dirs
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
+        with:
+          dir_names: true
+          dir_names_max_depth: '1'
+          files_ignore: README.md
+          json: true
+
+      - name: List changed dirs and files
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          ALL_CHANGED_DIRS: ${{ steps.changed-dirs.outputs.all_changed_files }}
         run: |
-          echo "List all the files that have changed: ${ALL_CHANGED_FILES}"
+          echo "Changed Files: ${ALL_CHANGED_FILES}"
+          echo "Changed Dirs: ${ALL_CHANGED_DIRS}"
 
   # build:
   #   runs-on: ubuntu-latest
