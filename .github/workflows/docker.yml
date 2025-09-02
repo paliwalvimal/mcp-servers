@@ -35,9 +35,10 @@ jobs:
       - name: List changed dirs and files
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          ANY_CHANGED_FILES: ${{ steps.changed-files.outputs.any_changed }}
           ALL_CHANGED_DIRS: ${{ steps.changed-dirs.outputs.all_changed_files }}
         run: |
-          echo "Changed Files: ${ALL_CHANGED_FILES}"
+          echo "Changed Files: ${ANY_CHANGED_FILES} - ${ALL_CHANGED_FILES}"
           echo "Changed Dirs: ${ALL_CHANGED_DIRS}"
 
   # build:
