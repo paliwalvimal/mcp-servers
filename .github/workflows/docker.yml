@@ -84,4 +84,4 @@ jobs:
           cache-to: type=gha,mode=max
       - name: Print image content
         run: |
-          docker container run --rm vimalpaliwal/tinyurl-mcp-server:latest tree . && ls -laR
+          docker container run --rm vimalpaliwal/tinyurl-mcp-server:latest ls -laR
