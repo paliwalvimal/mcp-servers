@@ -78,6 +78,7 @@ jobs:
           file: ${{ matrix.dirs }}/Dockerfile
           # platforms: linux/amd64,linux/arm64
           push: false
+          load: true
           tags: vimalpaliwal/tinyurl-mcp-server:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
