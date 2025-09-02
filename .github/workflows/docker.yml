@@ -12,7 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          persist-credentials: false
+          # must be enabled for the below steps to work
+          persist-credentials: true
       - name: Get changed files in the docs folder
         id: changed-files
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
