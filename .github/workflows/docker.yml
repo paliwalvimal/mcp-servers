@@ -81,6 +81,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: List dir contents
+        if: always()
         run: |
           ls -la
       - name: Print image content
