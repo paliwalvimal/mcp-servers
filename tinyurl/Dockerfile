@@ -1,5 +1,5 @@
 # ====== Build stage ======
-FROM public.ecr.aws/docker/library/python:3.13-alpine AS uv
+FROM mirror.gcr.io/astral/uv:0.8-python3.13-alpine AS uv
 
 # Install the project into `/app`
 WORKDIR /app
@@ -13,10 +13,6 @@ ENV UV_PYTHON_PREFERENCE=only-system
 # Copy the required files first
 COPY pyproject.toml uv.lock .
 
-# Python optimization and uv configuration
-ENV PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
-
 # Install system dependencies and Python package manager
 RUN apk update && \
     apk add --no-cache --virtual .build-deps \
@@ -28,17 +24,12 @@ RUN apk update && \
     cargo
 
 # Install the project's dependencies using the lockfile and settings
-RUN pip install --no-cache-dir uv && \
-    uv sync --frozen --no-install-project --no-dev --no-editable
+RUN uv sync --frozen --no-install-project --no-dev --no-editable
 
 # Then, add the rest of the project source code and install it
 # Installing separately from its dependencies allows optimal layer caching
 COPY . .
 RUN uv build && uv pip install dist/*.whl
-
-# Make the directory just in case it doesn't exist
-RUN mkdir -p /root/.local
-
 
 # ====== Production build ======
 FROM public.ecr.aws/docker/library/python:3.13-alpine
