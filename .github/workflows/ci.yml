@@ -81,3 +81,30 @@ jobs:
       - name: Test image
         run: |
           docker container run --rm vimalpaliwal/tinyurl-mcp-server:latest python -c "import tinyurl_mcp_server; print('Docker image works')"
+
+  pypi-publish-test:
+    runs-on: ubuntu-latest
+    needs: [detect-changed-dirs]
+    environment:
+      name: test
+      url: https://pypi.org/p/tinyurl-mcp-server
+    permissions:
+      id-token: write
+    strategy:
+      matrix:
+        dirs: ${{ fromJson(needs.detect-changed-dirs.outputs.all_changed_dirs) }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.dirs }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+      - name: Build package distributions
+        run: uv build
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
