@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, HttpUrl, PositiveInt, ConfigDict, field_serializer
 from typing import Optional, Literal
 
-from tinyurl_mcp_server.utils import date_parser_absolute
+from tinyurl_mcp.utils import date_parser_absolute
 
 
 class ApiErrorResponse(BaseModel):

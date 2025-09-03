@@ -51,4 +51,4 @@ COPY --from=uv --chown=app:app /app/.venv /app/.venv
 # Run as non-root
 USER app
 
-ENTRYPOINT ["tinyurl-mcp-server"]
+ENTRYPOINT ["tinyurl-mcp"]

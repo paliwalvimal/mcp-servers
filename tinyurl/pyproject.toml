@@ -19,7 +19,7 @@ dependencies = [
 keywords = ["tinyurl", "mcp"]
 
 [project.scripts]
-tinyurl-mcp = "tinyurl_mcp_server.main:main"
+tinyurl-mcp = "tinyurl_mcp.main:main"
 
 [build-system]
 requires = ["hatchling"]
