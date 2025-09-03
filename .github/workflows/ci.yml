@@ -87,7 +87,7 @@ jobs:
     needs: [detect-changed-dirs]
     environment:
       name: test
-      url: https://pypi.org/p/tinyurl-mcp-server
+      url: https://pypi.org/p/tinyurl-mcp
     permissions:
       id-token: write
       contents: read
