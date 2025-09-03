@@ -19,10 +19,18 @@ jobs:
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
         with:
           files: .github/workflows/ci.yml
-          json: true
-          matrix: true
+
+      - name: Get all mcp dirs
+        if: steps.changed-files.outputs.any_changed == 'true'
+        id: all-dirs
+        run: |
+          ALL_DIRS=("$(ls -d */ | tr -d '/')")
+          ALL_DIRS_JSON="$(printf '%s\n' "${ALL_DIRS[@]}" | jq -R . | jq -sc .)"
+
+          echo "all_changed_dirs=${ALL_DIRS_JSON}" >> $GITHUB_OUTPUT
 
       - name: Get changed dirs
+        if: steps.changed-files.outputs.any_changed == 'false'
         id: changed-dirs
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
         with:
@@ -34,17 +42,16 @@ jobs:
           json: true
           matrix: true
 
-      - name: List changed dirs and files
+      - name: List changed dirs
+        id: list-changed-dirs
         env:
-          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
-          ANY_CHANGED_FILES: ${{ steps.changed-files.outputs.any_changed }}
-          ALL_CHANGED_DIRS: ${{ steps.changed-dirs.outputs.all_changed_files }}
+          ALL_CHANGED_DIRS: ${{ steps.changed-files.outputs.any_changed && steps.all-dirs.outputs.all_changed_dirs || steps.changed-dirs.outputs.all_changed_files }}
         run: |
-          echo "Changed Files: ${ANY_CHANGED_FILES} - ${ALL_CHANGED_FILES}"
           echo "Changed Dirs: ${ALL_CHANGED_DIRS}"
+
+          echo "all_changed_dirs=${ALL_CHANGED_DIRS}" >> $GITHUB_OUTPUT
     outputs:
-      any_changed_files: ${{ steps.changed-files.outputs.any_changed }}
-      all_changed_dirs: ${{ steps.changed-dirs.outputs.all_changed_files }}
+      all_changed_dirs: ${{ steps.list-changed-dirs.outputs.all_changed_dirs }}
 
   image-build-and-test:
     runs-on: ubuntu-latest
