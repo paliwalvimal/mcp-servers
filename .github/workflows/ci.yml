@@ -105,12 +105,8 @@ jobs:
         uses: astral-sh/setup-uv@v6
       - name: Build package distributions
         run: uv build
-      - name: List directories
-        run: |
-          pwd
-          ls -alR
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
-          verbose: true
+          packages-dir: ${{ matrix.dirs }}/dist
