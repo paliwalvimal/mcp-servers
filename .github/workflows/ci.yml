@@ -90,6 +90,7 @@ jobs:
       url: https://pypi.org/p/tinyurl-mcp-server
     permissions:
       id-token: write
+      contents: read
     strategy:
       matrix:
         dirs: ${{ fromJson(needs.detect-changed-dirs.outputs.all_changed_dirs) }}
