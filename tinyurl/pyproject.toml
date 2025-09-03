@@ -1,5 +1,5 @@
 [project]
-name = "tinyurl-mcp-server"
+name = "tinyurl-mcp"
 version = "0.1.0"
 description = "MCP Server for tinyurl.com"
 readme = "README.md"
@@ -19,7 +19,7 @@ dependencies = [
 keywords = ["tinyurl", "mcp"]
 
 [project.scripts]
-tinyurl-mcp-server = "tinyurl_mcp_server.main:main"
+tinyurl-mcp = "tinyurl_mcp_server.main:main"
 
 [build-system]
 requires = ["hatchling"]
