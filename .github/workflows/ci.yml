@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  detect-changed-files:
+  detect-changed-dirs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -55,10 +55,10 @@ jobs:
 
   image-build-and-test:
     runs-on: ubuntu-latest
-    needs: [detect-changed-files]
+    needs: [detect-changed-dirs]
     strategy:
       matrix:
-        dirs: ${{ fromJson(needs.detect-changed-files.outputs.all_changed_dirs) }}
+        dirs: ${{ fromJson(needs.detect-changed-dirs.outputs.all_changed_dirs) }}
     defaults:
       run:
         working-directory: ${{ matrix.dirs }}
