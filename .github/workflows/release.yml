@@ -34,7 +34,7 @@ jobs:
     outputs:
       all_changed_dirs: ${{ steps.changed-dirs.outputs.all_changed_dirs }}
 
-  container-image:
+  image-publish:
     runs-on: ubuntu-latest
     needs: [detect-changed-dirs]
     strategy:
@@ -62,10 +62,10 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            vimalpaliwal/tinyurl-mcp-server
+            vimalpaliwal/${{ matrix.dirs }}-mcp
           # generate Docker tags based on the following events/attributes
           tags: |
-            type=raw,value=latest
+            type=ref,value=tag
             type=sha
       - name: Build image
         uses: docker/build-push-action@v6
@@ -84,7 +84,7 @@ jobs:
     needs: [detect-changed-dirs]
     environment:
       name: release
-      url: https://pypi.org/p/tinyurl-mcp
+      url: https://pypi.org/p/${{ matrix.dirs }}-mcp
     permissions:
       id-token: write
     strategy:

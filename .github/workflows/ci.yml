@@ -75,19 +75,19 @@ jobs:
           file: ${{ matrix.dirs }}/Dockerfile
           push: false
           load: true
-          tags: vimalpaliwal/tinyurl-mcp:latest
+          tags: vimalpaliwal/${{ matrix.dirs }}-mcp:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Test image
         run: |
-          docker container run --rm vimalpaliwal/tinyurl-mcp:latest python -c "import tinyurl_mcp; print('Docker image works')"
+          docker container run --rm vimalpaliwal/${{ matrix.dirs }}-mcp:latest python -c "import ${{ matrix.dirs }}_mcp; print('Docker image works')"
 
   pypi-publish-test:
     runs-on: ubuntu-latest
     needs: [detect-changed-dirs]
     environment:
       name: test
-      url: https://pypi.org/p/tinyurl-mcp
+      url: https://pypi.org/p/${{ matrix.dirs }}-mcp
     permissions:
       id-token: write
       contents: read
@@ -110,4 +110,3 @@ jobs:
         with:
           repository-url: https://test.pypi.org/legacy/
           packages-dir: ${{ matrix.dirs }}/dist
-          verbose: true
