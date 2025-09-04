@@ -108,6 +108,13 @@ jobs:
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PAT }}
+          repository: vimalpaliwal/${{ matrix.dirs }}-mcp-test
+          readme-filepath: ${{ matrix.dirs }}/README.md
       - name: Test image
         run: |
           docker container run --rm vimalpaliwal/${{ matrix.dirs }}-mcp:latest python -c "import ${{ matrix.dirs }}_mcp; print('Docker image works')"
