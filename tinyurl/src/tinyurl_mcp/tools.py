@@ -1,3 +1,5 @@
+from loguru import logger
+
 from tinyurl_mcp.server import mcp
 from tinyurl_mcp.models import (
     ApiErrorResponse,
@@ -26,6 +28,8 @@ async def generate_short_url(
     Returns:
         A short URL for the given long URL if success else error code along with the message.
     """
+
+    logger.info("Making an API request to generate a new short URL...")
     api_response = await make_api_request(
         api_path="create", req_data=req_data.model_dump_json(exclude_none=True)
     )
@@ -50,6 +54,7 @@ async def update_long_url(
         The new long URL associated to the existing short URL if success else error code along with the message.
     """
 
+    logger.info("Making an API request to update long URL for an existing short URL...")
     api_response = await make_api_request(
         api_path="change", req_method=RequestMethod.PATCH, req_data=req_data.model_dump_json()
     )
@@ -74,6 +79,7 @@ async def delete_short_url(
         The deleted short URL along with the metadata if success else error code along with the message.
     """
 
+    logger.info("Making an API request to delete an existing short URL...")
     api_response = await make_api_request(
         api_path=f"alias/{req_data.domain}/{req_data.alias}",
         req_method=RequestMethod.DELETE,
@@ -99,6 +105,7 @@ async def list_short_urls(
         The list of short URLs along with the metadata if success else error code along with the message.
     """
 
+    logger.info("Making an API request to list all the existing short URLs...")
     api_response = await make_api_request(
         api_path=f"urls/{req_data.type}",
         req_method=RequestMethod.GET,

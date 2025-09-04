@@ -44,20 +44,20 @@ async def make_api_request(
     # make async request to the api server
     async with httpx.AsyncClient() as client:
         try:
-            logger.info(f"Making request to: {url}")
+            logger.info(f"API URL: {url}")
             logger.info(f"Request data: {req_data}")
+            logger.info(f"Query Params: {query_params}")
 
             request = httpx.Request(
                 req_method.value, url, headers=headers, data=req_data, params=query_params
             )
             response = await client.send(request)
 
-            logger.info(f"Response status: {response.status_code}")
-            logger.info(f"Response body: {response.json()}")
+            logger.info(f"Response: {response.status_code} - {response.json()}")
 
             return response.json()
-        except Exception as e:
-            logger.error(f"TinyURL API request failed: {e}")
+        except Exception:
+            logger.exception("TinyURL API request failed.")
             raise
 
 

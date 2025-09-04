@@ -46,17 +46,20 @@ Use either of the below option to configure your MCP client. To understand the c
         "run",
         "-i",
         "--rm",
-        "tinyurl-mcp"
+        "--env",
+        "TINY_URL_API_KEY=__API_KEY__",
+        "vimalpaliwal/tinyurl-mcp:latest"
       ],
-      "env": {
-        "TINY_URL_API_KEY": "__API_KEY__"
-      },
+      "env": {},
       "disabled": false,
       "autoApprove": []
     }
   }
 }
 ```
+
+**Note:** Replace `__API_KEY__` with your actual API key.
+
 
 ### Available Tools
 

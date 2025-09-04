@@ -1,6 +1,6 @@
 [project]
 name = "tinyurl-mcp"
-version = "0.1.1"
+version = "1.0.0"
 description = "MCP Server for tinyurl.com"
 readme = "README.md"
 license = "Apache-2.0"
@@ -16,7 +16,7 @@ dependencies = [
     "mcp[cli]>=1.13.1",
     "pydantic>=2.11.7",
 ]
-keywords = ["tinyurl", "mcp"]
+keywords = ["tinyurl", "mcp", "url shortener"]
 
 [project.scripts]
 tinyurl-mcp = "tinyurl_mcp.main:main"
