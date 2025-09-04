@@ -4,12 +4,16 @@ This MCP server provides tools to interact with [tinyurl.com](https://tinyurl.co
 
 ### Prerequisites
 
-1. [uv](https://docs.astral.sh/uv/) from Astral
-2. [Python 3.13](https://www.python.org/downloads/) or higher
+- For Option 1:
+  - [uv](https://docs.astral.sh/uv/) from Astral
+  - [Python 3.13](https://www.python.org/downloads/) or higher
+- For Option 2:
+  - [Docker](https://www.docker.com/)
+
 
 ### Configuration
 
-Use either of the below option to configure your MCP client.
+Use either of the below option to configure your MCP client. To understand the configuration options, please refer to the [documentation](https://gofastmcp.com/integrations/mcp-json-configuration).
 
 **Option 1: Via uvx**
 ```json
