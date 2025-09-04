@@ -53,7 +53,7 @@ jobs:
     outputs:
       all_changed_dirs: ${{ steps.list-changed-dirs.outputs.all_changed_dirs }}
 
-  image-build-and-test:
+  image-test:
     runs-on: ubuntu-latest
     needs: [detect-changed-dirs]
     strategy:
@@ -81,32 +81,3 @@ jobs:
       - name: Test image
         run: |
           docker container run --rm vimalpaliwal/${{ matrix.dirs }}-mcp:latest python -c "import ${{ matrix.dirs }}_mcp; print('Docker image works')"
-
-  pypi-publish-test:
-    runs-on: ubuntu-latest
-    needs: [detect-changed-dirs]
-    environment:
-      name: test
-      url: https://pypi.org/p/${{ matrix.dirs }}-mcp
-    permissions:
-      id-token: write
-      contents: read
-    strategy:
-      matrix:
-        dirs: ${{ fromJson(needs.detect-changed-dirs.outputs.all_changed_dirs) }}
-    defaults:
-      run:
-        working-directory: ${{ matrix.dirs }}
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          persist-credentials: false
-      - name: Install uv
-        uses: astral-sh/setup-uv@v6
-      - name: Build package distributions
-        run: uv build
-      - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: https://test.pypi.org/legacy/
-          packages-dir: ${{ matrix.dirs }}/dist
