@@ -15,10 +15,10 @@ Use either of the below option to configure your MCP client.
 ```json
 {
   "mcpServers": {
-    "tinyurl-mcp-server": {
+    "tinyurl-mcp": {
       "command": "uvx",
       "args": [
-        "tinyurl-mcp-server"
+        "tinyurl-mcp"
       ],
       "env": {
         "TINY_URL_API_KEY": "__API_KEY__"
@@ -36,20 +36,20 @@ Use either of the below option to configure your MCP client.
 First step is to clone the repo and build the image:
 ```bash
 cd mcp-servers/tinyurl
-docker image build -t tinyurl-mcp-server .
+docker image build -t tinyurl-mcp .
 ```
 
 Then configure your MCP client:
 ```json
 {
   "mcpServers": {
-    "tinyurl-mcp-server": {
+    "tinyurl-mcp": {
       "command": "docker",
       "args": [
         "run",
         "-i",
         "--rm",
-        "tinyurl-mcp-server"
+        "tinyurl-mcp"
       ],
       "env": {
         "TINY_URL_API_KEY": "__API_KEY__"

@@ -520,7 +520,7 @@ wheels = [
 ]
 
 [[package]]
-name = "tinyurl-mcp-server"
+name = "tinyurl-mcp"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

@@ -75,12 +75,12 @@ jobs:
           file: ${{ matrix.dirs }}/Dockerfile
           push: false
           load: true
-          tags: vimalpaliwal/tinyurl-mcp-server:latest
+          tags: vimalpaliwal/tinyurl-mcp:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Test image
         run: |
-          docker container run --rm vimalpaliwal/tinyurl-mcp-server:latest python -c "import tinyurl_mcp_server; print('Docker image works')"
+          docker container run --rm vimalpaliwal/tinyurl-mcp:latest python -c "import tinyurl_mcp; print('Docker image works')"
 
   pypi-publish-test:
     runs-on: ubuntu-latest
