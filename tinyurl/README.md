@@ -33,13 +33,6 @@ Use either of the below option to configure your MCP client.
 
 **Option 2: Via docker**
 
-First step is to clone the repo and build the image:
-```bash
-cd mcp-servers/tinyurl
-docker image build -t tinyurl-mcp .
-```
-
-Then configure your MCP client:
 ```json
 {
   "mcpServers": {
