@@ -84,8 +84,8 @@ jobs:
             vimalpaliwal/${{ matrix.dirs }}-mcp-test
           # generate Docker tags based on the following events/attributes
           tags: |
-            # type=ref,value=tag
-            type=sha
+            type=raw,value=latest
+            type=sha,prefix=
       - name: Build image
         uses: docker/build-push-action@v6
         with:
