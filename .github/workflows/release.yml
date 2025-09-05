@@ -42,6 +42,7 @@ jobs:
   image-publish:
     runs-on: ubuntu-latest
     needs: [detect-changed-dirs]
+    if: needs.detect-changed-dirs.outputs.all_changed_dirs != '[]'
     strategy:
       matrix:
         dirs: ${{ fromJson(needs.detect-changed-dirs.outputs.all_changed_dirs) }}
@@ -94,6 +95,7 @@ jobs:
   pypi-publish:
     runs-on: ubuntu-latest
     needs: [detect-changed-dirs]
+    if: needs.detect-changed-dirs.outputs.all_changed_dirs != '[]'
     environment:
       name: release
       url: https://pypi.org/p/${{ matrix.dirs }}-mcp
