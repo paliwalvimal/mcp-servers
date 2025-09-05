@@ -16,12 +16,12 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+          fetch-tags: true
 
       # Handle the “first tag” case
       - name: Get previous tag
         id: prev-tag
         run: |
-          git fetch --tags --depth=1
           echo "tag=$(git tag --sort=-creatordate | sed -n 2p)" >> $GITHUB_OUTPUT
 
       - name: Get all mcp dirs
