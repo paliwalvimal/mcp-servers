@@ -23,7 +23,6 @@ jobs:
       - name: Get previous tag
         id: prev-tag
         run: |
-          git fetch --tags --depth=1
           echo "tag=$(git tag --sort=-creatordate | sed -n 2p)" >> $GITHUB_OUTPUT
 
       - name: Get all mcp dirs
