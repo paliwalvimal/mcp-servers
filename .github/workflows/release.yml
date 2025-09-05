@@ -17,12 +17,27 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
+      # Handle the “first tag” case
+      - name: Get previous tag
+        id: prev-tag
+        run: |
+          git fetch --tags --depth=1
+          echo "tag=$(git tag --sort=-creatordate | sed -n 2p)" >> $GITHUB_OUTPUT
+
+      - name: Get all mcp dirs
+        if: steps.prev-tag.outputs.tag == ''
+        id: all-dirs
+        run: |
+          ALL_DIRS=("$(ls -d */ | tr -d '/')")
+          ALL_DIRS_JSON="$(printf '%s\n' "${ALL_DIRS[@]}" | jq -R . | jq -sc .)"
+
+          echo "all_changed_dirs=${ALL_DIRS_JSON}" >> $GITHUB_OUTPUT
+
       - name: Get changed dirs
         id: changed-dirs
+        if: steps.prev-tag.outputs.tag != ''
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
         with:
-          fetch_depth: 0
-          base_sha: main
           dir_names: true
           dir_names_max_depth: '1'
           files_ignore: |
@@ -32,12 +47,15 @@ jobs:
           matrix: true
 
       - name: List changed dirs
+        id: list-changed-dirs
         env:
-          ALL_CHANGED_DIRS: ${{ steps.changed-dirs.outputs.all_changed_files }}
+          ALL_CHANGED_DIRS: ${{ steps.prev-tag.outputs.tag == '' && steps.all-dirs.outputs.all_changed_dirs || steps.changed-dirs.outputs.all_changed_files }}
         run: |
           echo "Changed Dirs: ${ALL_CHANGED_DIRS}"
+
+          echo "all_changed_dirs=${ALL_CHANGED_DIRS}" >> $GITHUB_OUTPUT
     outputs:
-      all_changed_dirs: ${{ steps.changed-dirs.outputs.all_changed_dirs }}
+      all_changed_dirs: ${{ steps.list-changed-dirs.outputs.all_changed_dirs }}
 
   image-publish:
     runs-on: ubuntu-latest
