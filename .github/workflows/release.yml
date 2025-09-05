@@ -9,9 +9,6 @@ on:
 env:
   DOCKERHUB_REGISTRY: vimalpaliwal
 
-permissions:
-  contents: read
-
 jobs:
   detect-changed-dirs:
     runs-on: ubuntu-latest
@@ -20,6 +17,7 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+          fetch-tags: true
 
       # Handle the “first tag” case
       - name: Get previous tag
@@ -123,6 +121,7 @@ jobs:
       url: https://pypi.org/p/${{ matrix.dirs }}-mcp
     permissions:
       id-token: write
+      contents: read
     strategy:
       matrix:
         dirs: ${{ fromJson(needs.detect-changed-dirs.outputs.all_changed_dirs) }}

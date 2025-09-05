@@ -9,9 +9,6 @@ on:
 env:
   DOCKERHUB_REGISTRY: vimalpaliwal
 
-permissions:
-  contents: read
-
 jobs:
   detect-changed-dirs:
     runs-on: ubuntu-latest
