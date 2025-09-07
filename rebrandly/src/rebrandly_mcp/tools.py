@@ -55,7 +55,7 @@ async def delete_short_url(
 
     logger.info("Making an API request to delete the existing short URL...")
     api_response = await make_api_request(
-        api_path=f"links/{DeleteShortUrlRequest.id}", req_method=RequestMethod.DELETE
+        api_path=f"links/{req_data.id}", req_method=RequestMethod.DELETE
     )
 
     if "http_code" in api_response:
@@ -66,7 +66,7 @@ async def delete_short_url(
 
 @mcp.tool()
 async def get_or_list_short_url(
-    req_data: GetOrListShortUrlsRequest,
+    req_data: GetOrListShortUrlsRequest = None,
 ) -> ShortUrlDetailsList | ApiErrorResponse:
     """
     Get a single short URL or list multiple short links.
@@ -80,10 +80,12 @@ async def get_or_list_short_url(
 
     logger.info("Making an API request to get/list the existing short URL(s)...")
     api_response = await make_api_request(
-        api_path="links", req_method=RequestMethod.GET, query_params=req_data.model_dump_json()
+        api_path="links",
+        req_method=RequestMethod.GET,
+        query_params=req_data.model_dump_json() if req_data else None,
     )
 
     if "http_code" in api_response:
         return ApiErrorResponse(**api_response)
     else:
-        return ShortUrlDetails(**api_response)
+        return ShortUrlDetailsList(urls=api_response)
