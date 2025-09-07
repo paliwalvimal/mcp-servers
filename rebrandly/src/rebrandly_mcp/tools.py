@@ -7,6 +7,8 @@ from rebrandly_mcp.models import (
     ShortUrlDetails,
     ApiErrorResponse,
     DeleteShortUrlRequest,
+    GetOrListShortUrlsRequest,
+    ShortUrlDetailsList,
 )
 
 
@@ -31,7 +33,7 @@ async def generate_short_url(
         req_data=req_data.model_dump_json(exclude_none=True),
     )
 
-    if "status_code" in api_response:
+    if "http_code" in api_response:
         return ApiErrorResponse(**api_response)
     else:
         return ShortUrlDetails(**api_response)
@@ -56,7 +58,32 @@ async def delete_short_url(
         api_path=f"links/{DeleteShortUrlRequest.id}", req_method=RequestMethod.DELETE
     )
 
-    if "status_code" in api_response:
+    if "http_code" in api_response:
+        return ApiErrorResponse(**api_response)
+    else:
+        return ShortUrlDetails(**api_response)
+
+
+@mcp.tool()
+async def get_or_list_short_url(
+    req_data: GetOrListShortUrlsRequest,
+) -> ShortUrlDetailsList | ApiErrorResponse:
+    """
+    Get a single short URL or list multiple short links.
+
+    Args:
+        req_data: The filters to use while fetching the short URL(s).
+
+    Returns:
+        The list of short URL(s) if success else error code along with the message.
+    """
+
+    logger.info("Making an API request to get/list the existing short URL(s)...")
+    api_response = await make_api_request(
+        api_path="links", req_method=RequestMethod.GET, query_params=req_data.model_dump_json()
+    )
+
+    if "http_code" in api_response:
         return ApiErrorResponse(**api_response)
     else:
         return ShortUrlDetails(**api_response)

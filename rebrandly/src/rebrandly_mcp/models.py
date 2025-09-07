@@ -7,13 +7,17 @@ class ApiErrorResponse(BaseModel):
     Response schema for API failures.
     """
 
-    status_code: PositiveInt = Field(description="The HTTP status code of the failure.")
-    error: str = Field(description="The error message describing the failure.")
+    http_code: PositiveInt = Field(description="The HTTP status code of the failure.")
+    message: str = Field(description="The error message describing the failure.")
+    code: Optional[str] = Field(default=None, description="The error code describing the failure.")
+    source: Optional[str] = Field(default=None, description="The source of the failure.")
+    property: Optional[str] = Field(
+        default=None, description="The property that caused the failure."
+    )
 
 
-class CustomDomain(BaseModel):
-    id: Optional[str] = Field(description="The unique identifier for the custom domain.")
-    fullName: Optional[str] = Field(description="The fully qualified custom domain name.")
+class CustomDomainNewShortUrl(BaseModel):
+    id: str = Field(description="The unique identifier for the custom domain.")
 
 
 class CreateShortUrlRequest(BaseModel):
@@ -34,7 +38,7 @@ class CreateShortUrlRequest(BaseModel):
         min=3,
         max=255,
     )
-    domain: Optional[CustomDomain] = Field(
+    domain: Optional[CustomDomainNewShortUrl] = Field(
         default=None, description="The unique id of the domain to use for the short URL."
     )
     description: Optional[str] = Field(
@@ -64,6 +68,15 @@ class ShortUrlDetailsList(BaseModel):
     urls: list[ShortUrlDetails] = Field(description="List of short URLs with details.")
 
 
+class CustomDomainListShortUrl(BaseModel):
+    id: Optional[str] = Field(
+        default=None, description="The unique identifier for the custom domain."
+    )
+    fullName: Optional[str] = Field(
+        default=None, description="The fully qualified custom domain name."
+    )
+
+
 class GetOrListShortUrlsRequest(BaseModel):
     """
     Request schema for getting or listing short URLs.
@@ -72,7 +85,7 @@ class GetOrListShortUrlsRequest(BaseModel):
     limit: PositiveInt = Field(
         default=25, description="The maximum number of short URLs to retrieve.", max=25
     )
-    domain: Optional[CustomDomain] = Field(
+    domain: Optional[CustomDomainListShortUrl] = Field(
         default=None, description="The unique id of the domain to use for the short URL."
     )
     slashtag: Optional[str] = Field(

@@ -58,10 +58,10 @@ async def make_api_request(
             logger.info(f"Response: {response.status_code} - {response.json()}")
 
             return response.json()
-        except httpx.RequestError:
+        except httpx.HTTPStatusError:
             logger.exception("HTTP request failed.")
             return ApiErrorResponse(
-                status_code=response.status_code, error=response.text
+                http_code=response.status_code, message=response.text
             ).model_dump_json()
         except Exception:
             logger.exception("Rebrandly API request failed.")
