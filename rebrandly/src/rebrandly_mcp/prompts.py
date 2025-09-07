@@ -16,8 +16,14 @@ def mcp_user_prompt() -> str:
     1. To generate a new short URL for a given long URL
     2. To modify the long URL of an existing short URL
 
-    **Instructions:**
-    1. Always start with understanding the user's request and plan the steps before executing the tools.
-    2. Validate all the required inputs are provided by the user. If not, prompt for the required inputs.
-    3. When a tool responds with an error code or message, strictly only suggest alternative approaches and never execute them with explicit user permission.
+    **General Instructions:**
+    1. Always start with understanding the user's request and the requirements to fulfill the request.
+    2. Prepare a clear step-by-step plan before starting the executing.
+    3. Validate all the required inputs are provided by the user. If not, prompt for the required inputs.
+    4. When a tool responds with an error code or message, strictly only suggest alternative approaches and never execute them with explicit user permission.
+
+    **Instructions to delete the short URL:**
+    1. If the user provides the short URL instead of the unique identifier pointing to the short URL, use the get/list functionality to fetch the short URL id.
+    2. After fetching the short URL id, use the appropriate tool to delete the short URL.
+    3. In case you are unable to fetch the short URL id, inform the user and ask for the short URL id.
     """

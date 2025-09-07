@@ -5,6 +5,8 @@ from enum import Enum
 from loguru import logger
 from typing import Any, Optional
 
+from rebrandly_mcp.models import ApiErrorResponse
+
 
 class RequestMethod(str, Enum):
     """Enum for HTTP request methods."""
@@ -58,7 +60,9 @@ async def make_api_request(
             return response.json()
         except httpx.RequestError:
             logger.exception("HTTP request failed.")
-            return
+            return ApiErrorResponse(
+                status_code=response.status_code, error=response.text
+            ).model_dump_json()
         except Exception:
             logger.exception("Rebrandly API request failed.")
             raise

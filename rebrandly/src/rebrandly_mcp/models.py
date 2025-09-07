@@ -8,7 +8,7 @@ class ApiErrorResponse(BaseModel):
     """
 
     status_code: PositiveInt = Field(description="The HTTP status code of the failure.")
-    message: str = Field(description="The error message describing the failure.")
+    error: str = Field(description="The error message describing the failure.")
 
 
 class CustomDomain(BaseModel):

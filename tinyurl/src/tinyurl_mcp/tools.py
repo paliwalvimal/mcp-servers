@@ -31,7 +31,9 @@ async def generate_short_url(
 
     logger.info("Making an API request to generate a new short URL...")
     api_response = await make_api_request(
-        api_path="create", req_data=req_data.model_dump_json(exclude_none=True)
+        api_path="create",
+        req_method=RequestMethod.POST,
+        req_data=req_data.model_dump_json(exclude_none=True),
     )
 
     if api_response["code"] == 0:
