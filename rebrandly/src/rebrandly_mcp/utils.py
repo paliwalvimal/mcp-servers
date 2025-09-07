@@ -50,9 +50,15 @@ async def make_api_request(
             )
             response = await client.send(request)
 
+            # raise exception for non 2xx http code
+            response.raise_for_status()
+
             logger.info(f"Response: {response.status_code} - {response.json()}")
 
             return response.json()
+        except httpx.RequestError:
+            logger.exception("HTTP request failed.")
+            return
         except Exception:
             logger.exception("Rebrandly API request failed.")
             raise

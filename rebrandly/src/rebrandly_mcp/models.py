@@ -2,6 +2,15 @@ from pydantic import BaseModel, Field, HttpUrl, PositiveInt
 from typing import Optional
 
 
+class ApiErrorResponse(BaseModel):
+    """
+    Response schema for API failures.
+    """
+
+    status_code: PositiveInt = Field(description="The HTTP status code of the failure.")
+    message: str = Field(description="The error message describing the failure.")
+
+
 class CustomDomain(BaseModel):
     id: Optional[str] = Field(description="The unique identifier for the custom domain.")
     fullName: Optional[str] = Field(description="The fully qualified custom domain name.")
