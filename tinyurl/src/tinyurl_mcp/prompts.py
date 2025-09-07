@@ -17,7 +17,8 @@ def mcp_user_prompt() -> str:
     2. To modify the long URL of an existing short URL
 
     **Instructions:**
-    1. Always start with understanding the user's request and plan the steps before executing the tools.
-    2. Validate all the required inputs are provided by the user. If not, prompt for the required inputs.
-    3. When a tool responds with an error code or message, strictly only suggest alternative approaches and never execute them with explicit user permission.
+    1. Always start with understanding the user's request and the requirements to fulfill the request.
+    2. Prepare a clear step-by-step plan before starting the executing.
+    3. Validate all the required inputs are provided by the user. If not, prompt for the required inputs.
+    4. In case of an error, strictly stick to suggesting alternative approaches and never execute them without explicit user permission.
     """

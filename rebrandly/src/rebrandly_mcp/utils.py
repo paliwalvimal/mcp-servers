@@ -62,7 +62,7 @@ async def make_api_request(
             logger.exception("HTTP request failed.")
             return ApiErrorResponse(
                 http_code=response.status_code, message=response.text
-            ).model_dump_json()
+            ).model_dump()
         except Exception:
             logger.exception("Rebrandly API request failed.")
             raise

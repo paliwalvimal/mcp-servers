@@ -20,7 +20,7 @@ def mcp_user_prompt() -> str:
     1. Always start with understanding the user's request and the requirements to fulfill the request.
     2. Prepare a clear step-by-step plan before starting the executing.
     3. Validate all the required inputs are provided by the user. If not, prompt for the required inputs.
-    4. When a tool responds with an error code or message, strictly only suggest alternative approaches and never execute them with explicit user permission.
+    4. In case of an error, strictly stick to suggesting alternative approaches and never execute them without explicit user permission.
 
     **Instructions to delete the short URL:**
     1. If the user provides the short URL instead of the unique identifier pointing to the short URL, use the get/list functionality to fetch the short URL id.
