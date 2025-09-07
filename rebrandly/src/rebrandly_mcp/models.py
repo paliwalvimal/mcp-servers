@@ -35,13 +35,20 @@ class CreateShortUrlRequest(BaseModel):
     )
 
 
-class CreateShortUrlResponse(BaseModel):
+class ShortUrlInfo(BaseModel):
     """
-    Response schema for creating a new short URL.
+    Response schema containing the short URL and metadata.
     """
 
     id: str = Field(description="The unique identifier for the short URL.")
     title: str = Field(description="The title to identify your short URL.")
-    slashtag: str = Field(description="The slashtag or the custom identifier for the short URL.")
     destination: HttpUrl = Field(description="The destination or the long URL to be shortened.")
     shortUrl: str = Field(description="The short link pointing to the long/destination URL")
+
+
+class ShortUrlInfoList(BaseModel):
+    """
+    Response schema containing the short URL and metadata.
+    """
+
+    urls: list[ShortUrlInfo] = Field(description="List of short URLs with details.")
