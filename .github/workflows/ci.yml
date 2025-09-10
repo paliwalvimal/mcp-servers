@@ -74,7 +74,7 @@ jobs:
           persist-credentials: false
       - name: Fetch version info
         id: version-info
-        uses: .github/actions/fetch-version-info
+        uses: ./.github/actions/fetch-version-info
         with:
           dir: ${{ matrix.dirs }}
       - name: Set up Docker Buildx
