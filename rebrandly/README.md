@@ -1,6 +1,6 @@
-## TinyURL MCP Server
+## Rebrandly MCP Server
 
-This MCP server provides tools to interact with [tinyurl.com](https://tinyurl.com) to manage short URLs.
+This MCP server provides tools to interact with [rebrandly.com](https://rebrandly.com) to manage short URLs.
 
 ### Prerequisites
 
@@ -19,13 +19,13 @@ Use either of the below option to configure your MCP client. To understand the c
 ```json
 {
   "mcpServers": {
-    "tinyurl-mcp": {
+    "rebrandly-mcp": {
       "command": "uvx",
       "args": [
-        "tinyurl-mcp"
+        "rebrandly-mcp"
       ],
       "env": {
-        "TINY_URL_API_KEY": "__API_KEY__"
+        "REBRANDLY_API_KEY": "__API_KEY__"
       },
       "disabled": false,
       "autoApprove": []
@@ -40,15 +40,15 @@ Use either of the below option to configure your MCP client. To understand the c
 ```json
 {
   "mcpServers": {
-    "tinyurl-mcp": {
+    "rebrandly-mcp": {
       "command": "docker",
       "args": [
         "run",
         "-i",
         "--rm",
         "--env",
-        "TINY_URL_API_KEY=__API_KEY__",
-        "vimalpaliwal/tinyurl-mcp:latest"
+        "REBRANDLY_API_KEY=__API_KEY__",
+        "vimalpaliwal/rebrandly-mcp:latest"
       ],
       "env": {},
       "disabled": false,
@@ -64,14 +64,12 @@ Use either of the below option to configure your MCP client. To understand the c
 ### Available Tools
 
 - `generate_short_url`: Generate a new short URL
-- `update_long_url`:  Update the long URL of an existing short URL
 - `delete_short_url`: Delete an existing short URL
-- `list_short_urls`: List all the available or archived short URLs
+- `get_or_list_short_url`: Get or list existing short URL(s)
 
 ### Basic Usage Examples
 
-- Shorten linkedin.com/in/xxxxx for me please
-- Please create a short URL for medium.com/blog/xxxxx that expires next week
-- Update the long URL of tinyurl.com/xxxx to medium.com/blog/zzzzz
-- Delete the short URL for tinyurl.com/xxxx for me please
-- List all the archived short URLs
+- Shorten linkedin.com/in/xxxxx for me
+- Get me a short URL for youtube.com/xxxxx having yyyyy as the slug/slashtag
+- Delete the short URL for rebrandly.com/xxxx for me please
+- List all the short links

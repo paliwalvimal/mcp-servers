@@ -1,0 +1,25 @@
+name: 'fetch-py-project-version'
+description: 'Fetch version of a particular python project'
+
+inputs:
+  dir:
+    description: 'Directory of the python project'
+    required: true
+
+outputs:
+  version:
+    description: 'Version of the python project'
+    value: ${{ steps.fetch-version.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - name: Fetch version
+      id: fetch-version
+      shell: bash
+      working-directory: ${{ inputs.dir }}
+      run: |
+        version=$(awk -F '"' '/^version *= */ {print $2}' pyproject.toml)
+        echo "version=${version}"
+
+        echo "version=${version}" >> $GITHUB_OUTPUT
