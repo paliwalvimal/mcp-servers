@@ -14,22 +14,12 @@ outputs:
 runs:
   using: composite
   steps:
-    - name: Install Python 3.13
-      uses: actions/setup-python@v6
-      with:
-        python-version: '3.13'
-    - name: Install uv
-      uses: astral-sh/setup-uv@v6
-    - name: Build package distributions
-      shell: bash
-      working-directory: ${{ inputs.dir }}
-      run: uv build && uv pip install dist/*.whl
     - name: Fetch version
       id: fetch-version
       shell: bash
       working-directory: ${{ inputs.dir }}
       run: |
-        version_info=$(python -c "import importlib.metadata; print(importlib.metadata.version('${{ inputs.dir }}_mcp'))")
-        echo "version=${version_info}"
+        version=$(awk -F '"' '/^version *= */ {print $2}' pyproject.toml)
+        echo "version=${version}"
 
-        echo "version=${version_info}" >> $GITHUB_OUTPUT
+        echo "version=${version}" >> $GITHUB_OUTPUT
