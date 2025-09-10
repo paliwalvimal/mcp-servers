@@ -1,6 +1,6 @@
 [project]
 name = "tinyurl-mcp"
-version = "1.0.0"
+version = "1.0.1"
 description = "MCP Server for tinyurl.com"
 readme = "README.md"
 license = "Apache-2.0"
