@@ -23,7 +23,7 @@ def mcp_user_prompt() -> str:
     4. In case of an error, strictly stick to suggesting alternative approaches and never execute them without explicit user permission.
 
     **Instructions to delete the short URL:**
-    1. If the user provides the short URL instead of the unique identifier pointing to the short URL, use the get/list functionality to fetch the short URL id.
+    1. If the user provides a domain URL instead of the unique identifier, always use the get/list functionality to fetch the short URL id.
     2. After fetching the short URL id, use the appropriate tool to delete the short URL.
     3. In case you are unable to fetch the short URL id, inform the user and ask for the short URL id.
     """
