@@ -14,7 +14,8 @@ def mcp_user_prompt() -> str:
 
     **Supported Operations:**
     1. To generate a new short URL for a given long URL
-    2. To modify the long URL of an existing short URL
+    2. To get or list existing short URL(s)
+    3. To delete an existing short URL
 
     **General Instructions:**
     1. Always start with understanding the user's request and the requirements to fulfill the request.

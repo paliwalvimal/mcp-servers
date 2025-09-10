@@ -17,7 +17,7 @@ class ApiErrorResponse(BaseModel):
 
 
 class CustomDomainNewShortUrl(BaseModel):
-    id: str = Field(description="The unique identifier for the custom domain.")
+    id: str = Field(description="The long unique identifier for the custom domain.")
 
 
 class CreateShortUrlRequest(BaseModel):
@@ -28,7 +28,7 @@ class CreateShortUrlRequest(BaseModel):
     destination: HttpUrl = Field(description="The destination or the long URL to be shortened.")
     slashtag: Optional[str] = Field(
         default=None,
-        description="The slashtag or the custom identifier for the short URL.",
+        description="The slug/slashtag or the custom identifier for the short URL.",
         min=1,
         max=40,
     )
@@ -38,9 +38,7 @@ class CreateShortUrlRequest(BaseModel):
         min=3,
         max=255,
     )
-    domain: Optional[CustomDomainNewShortUrl] = Field(
-        default=None, description="The unique id of the domain to use for the short URL."
-    )
+    domain: Optional[CustomDomainNewShortUrl] = Field(default=None)
     description: Optional[str] = Field(
         default=None,
         description="A description/note to associate with the short link.",
@@ -54,7 +52,9 @@ class ShortUrlDetails(BaseModel):
     Response schema containing the short URL and metadata.
     """
 
-    id: str = Field(description="The unique identifier for the short URL.")
+    id: str = Field(
+        description="The long unique identifier for the short URL. This is different from the slug/slashtag."
+    )
     title: str = Field(description="The title to identify your short URL.")
     destination: HttpUrl = Field(description="The destination or the long URL to be shortened.")
     shortUrl: str = Field(description="The short link pointing to the long/destination URL")
@@ -65,12 +65,13 @@ class ShortUrlDetailsList(BaseModel):
     Response schema containing the short URL and metadata.
     """
 
-    urls: list[ShortUrlDetails] = Field(description="List of short URLs with details.")
+    urls: list[ShortUrlDetails] = Field(description="List of short URLs along with metadata.")
 
 
 class CustomDomainListShortUrl(BaseModel):
     id: Optional[str] = Field(
-        default=None, description="The unique identifier for the custom domain."
+        default=None,
+        description="The long unique identifier for the custom domain. This is different from the slug/slashtag.",
     )
     fullName: Optional[str] = Field(
         default=None, description="The fully qualified custom domain name."
@@ -85,12 +86,14 @@ class GetOrListShortUrlsRequest(BaseModel):
     limit: PositiveInt = Field(
         default=25, description="The maximum number of short URLs to retrieve.", max=25
     )
-    domain: Optional[CustomDomainListShortUrl] = Field(
-        default=None, description="The unique id of the domain to use for the short URL."
+    last: Optional[str] = Field(
+        default=None,
+        description="The long unique identifier of the last short URL to retrieve the next set of short URLs.",
     )
+    domain: Optional[CustomDomainListShortUrl] = Field(default=None)
     slashtag: Optional[str] = Field(
         default=None,
-        description="The slashtag or the custom identifier for the short URL. Custom domain is required to use this field",
+        description="The slug/slashtag or the custom identifier for the short URL. Custom domain is required to use this field",
     )
     dateFrom: Optional[str] = Field(
         default=None,
@@ -107,4 +110,6 @@ class DeleteShortUrlRequest(BaseModel):
     Request schema for deleting a short URL.
     """
 
-    id: str = Field(description="The unique identifier of the short URL that you want to delete")
+    id: str = Field(
+        description="The long unique identifier of the short URL. This is different from the slug/slashtag."
+    )
