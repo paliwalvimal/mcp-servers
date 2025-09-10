@@ -25,7 +25,7 @@ Use either of the below option to configure your MCP client. To understand the c
         "rebrandly-mcp"
       ],
       "env": {
-        "TINY_URL_API_KEY": "__API_KEY__"
+        "REBRANDLY_API_KEY": "__API_KEY__"
       },
       "disabled": false,
       "autoApprove": []
@@ -47,7 +47,7 @@ Use either of the below option to configure your MCP client. To understand the c
         "-i",
         "--rm",
         "--env",
-        "TINY_URL_API_KEY=__API_KEY__",
+        "REBRANDLY_API_KEY=__API_KEY__",
         "vimalpaliwal/rebrandly-mcp:latest"
       ],
       "env": {},
@@ -64,14 +64,11 @@ Use either of the below option to configure your MCP client. To understand the c
 ### Available Tools
 
 - `generate_short_url`: Generate a new short URL
-- `update_long_url`:  Update the long URL of an existing short URL
 - `delete_short_url`: Delete an existing short URL
-- `list_short_urls`: Llist all the available or archived short URLs
+- `get_or_list_short_url`: Get or list existing short URL(s)
 
 ### Basic Usage Examples
 
 - Shorten linkedin.com/in/xxxxx for me please
-- Please create a short URL for medium.com/blog/xxxxx that expires next week
-- Update the long URL of rebrandly.com/xxxx to medium.com/blog/zzzzz
 - Delete the short URL for rebrandly.com/xxxx for me please
-- List all the archived short URLs
+- List all the short links

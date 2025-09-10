@@ -66,7 +66,7 @@ Use either of the below option to configure your MCP client. To understand the c
 - `generate_short_url`: Generate a new short URL
 - `update_long_url`:  Update the long URL of an existing short URL
 - `delete_short_url`: Delete an existing short URL
-- `list_short_urls`: Llist all the available or archived short URLs
+- `list_short_urls`: List all the available or archived short URLs
 
 ### Basic Usage Examples
 
