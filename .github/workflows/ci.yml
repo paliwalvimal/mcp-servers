@@ -72,9 +72,9 @@ jobs:
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
-      - name: Fetch version info
-        id: version-info
-        uses: ./.github/actions/fetch-version-info
+      - name: Fetch mcp version
+        id: mcp-version
+        uses: ./.github/actions/fetch-py-package-version
         with:
           dir: ${{ matrix.dirs }}
       - name: Set up Docker Buildx
