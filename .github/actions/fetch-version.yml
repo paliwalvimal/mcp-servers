@@ -1,0 +1,30 @@
+name: 'fetch-py-package-version'
+description: 'Fetch version of a particular python package'
+
+inputs:
+  dir:
+    description: 'Directory where the package resides'
+    required: true
+
+outputs:
+  version:
+    description: 'Version of the package'
+
+runs:
+  using: composite
+  steps:
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+    - name: Build package distributions
+      shell: bash
+      working-directory: ${{ inputs.dir }}
+      run: uv build
+    - name: Fetch version
+      id: fetch-version
+      shell: bash
+      working-directory: ${{ inputs.dir }}
+      run: |
+        version_info=$(python -c "import importlib.metadata; print(importlib.metadata.version('${{ inputs.dir }}-mcp'))")
+        echo "version=${version_info}"
+
+        echo "version=${version_info}" >> $GITHUB_OUTPUT
