@@ -15,3 +15,4 @@ If you’re here to learn, tinker, or just explore alongside me — welcome aboa
 
 ## Available Servers:
 - [tinyurl.com](https://tinyurl.com/) - [documentation](./tinyurl/README.md)
+- [rebrandly.com](https://rebrandly.com) - [documentation](./rebrandly/README.md)

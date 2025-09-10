@@ -69,6 +69,7 @@ Use either of the below option to configure your MCP client. To understand the c
 
 ### Basic Usage Examples
 
-- Shorten linkedin.com/in/xxxxx for me please
+- Shorten linkedin.com/in/xxxxx for me
+- Get me a short URL for youtube.com/xxxxx having yyyyy as the slug/slashtag
 - Delete the short URL for rebrandly.com/xxxx for me please
 - List all the short links
