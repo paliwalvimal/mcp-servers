@@ -72,11 +72,6 @@ jobs:
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
-      - name: Fetch mcp version
-        id: mcp-version
-        uses: ./.github/actions/fetch-py-package-version
-        with:
-          dir: ${{ matrix.dirs }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Docker meta
