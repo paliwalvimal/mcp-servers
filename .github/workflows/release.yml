@@ -98,6 +98,7 @@ jobs:
           # generate Docker tags based on the following events/attributes
           tags: |
             type=raw,value=v${{ steps.mcp-version.outputs.version }}
+            type=raw,value=latest
             type=sha,prefix=
   #     - name: Build and publish image
   #       uses: docker/build-push-action@v6
