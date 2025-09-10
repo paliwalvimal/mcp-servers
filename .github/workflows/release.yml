@@ -22,7 +22,10 @@ jobs:
       - name: Get previous tag
         id: prev-tag
         run: |
-          echo "tag=$(git tag --sort=-creatordate | sed -n 2p)" >> $GITHUB_OUTPUT
+          prev_tag="$(git tag --sort=-creatordate | sed -n 2p)"
+          echo "prev_tag=${prev_tag}"
+
+          echo "tag=${prev_tag}" >> $GITHUB_OUTPUT
 
       - name: Get all mcp dirs
         if: steps.prev-tag.outputs.tag == ''
@@ -40,6 +43,7 @@ jobs:
         with:
           dir_names: true
           dir_names_max_depth: '1'
+          dir_names_exclude_current_dir: true
           files_ignore: |
             README.md
             .github/**
@@ -62,6 +66,7 @@ jobs:
     needs: [detect-changed-dirs]
     if: needs.detect-changed-dirs.outputs.all_changed_dirs != '[]'
     strategy:
+      fail-fast: false
       matrix:
         dirs: ${{ fromJson(needs.detect-changed-dirs.outputs.all_changed_dirs) }}
     defaults:
