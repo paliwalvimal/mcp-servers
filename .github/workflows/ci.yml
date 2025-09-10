@@ -62,6 +62,7 @@ jobs:
     needs: [detect-changed-dirs]
     if: needs.detect-changed-dirs.outputs.all_changed_dirs != '[]'
     strategy:
+      fail-fast: false
       matrix:
         dirs: ${{ fromJson(needs.detect-changed-dirs.outputs.all_changed_dirs) }}
     defaults:
