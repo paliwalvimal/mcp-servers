@@ -10,7 +10,7 @@ The idea behind this repo is simple: build something that helps me (and maybe ot
 
 Because this project is more of a learning journey, it doesn’t aim to cover every feature exposed by the official application APIs, hence may not be perfect and production-ready. Instead, it focuses on exploring the core concepts, and experimenting with different ideas.
 
-If you’re here to learn, tinker, or just explore alongside me — welcome aboard 🚀
+If you’re here to learn, tinker, or just explore alongside me — welcome aboard :rocket:
 
 
 ## Available Servers:
