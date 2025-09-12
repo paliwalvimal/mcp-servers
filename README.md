@@ -1,4 +1,4 @@
-# MCP Servers
+# :gear: MCP Servers
 
 :thinking: What is MCP Server? To put it in short from what I have understood so far, it's a way to expose the REST API interface to the AI agents to enable human-like interaction. To learn about it in detail please check out the [official documentation](https://modelcontextprotocol.io/docs/getting-started/intro).
 
